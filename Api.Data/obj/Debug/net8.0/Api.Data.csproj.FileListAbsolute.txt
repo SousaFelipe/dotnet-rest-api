@@ -1,0 +1,11 @@
+C:\Users\Felipe\Documents\Development\.NET\dotnet-rest-api\Api.Data\bin\Debug\net8.0\Api.Data.deps.json
+C:\Users\Felipe\Documents\Development\.NET\dotnet-rest-api\Api.Data\bin\Debug\net8.0\Api.Data.dll
+C:\Users\Felipe\Documents\Development\.NET\dotnet-rest-api\Api.Data\bin\Debug\net8.0\Api.Data.pdb
+C:\Users\Felipe\Documents\Development\.NET\dotnet-rest-api\Api.Data\obj\Debug\net8.0\Api.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Felipe\Documents\Development\.NET\dotnet-rest-api\Api.Data\obj\Debug\net8.0\Api.Data.AssemblyInfoInputs.cache
+C:\Users\Felipe\Documents\Development\.NET\dotnet-rest-api\Api.Data\obj\Debug\net8.0\Api.Data.AssemblyInfo.cs
+C:\Users\Felipe\Documents\Development\.NET\dotnet-rest-api\Api.Data\obj\Debug\net8.0\Api.Data.csproj.CoreCompileInputs.cache
+C:\Users\Felipe\Documents\Development\.NET\dotnet-rest-api\Api.Data\obj\Debug\net8.0\Api.Data.dll
+C:\Users\Felipe\Documents\Development\.NET\dotnet-rest-api\Api.Data\obj\Debug\net8.0\refint\Api.Data.dll
+C:\Users\Felipe\Documents\Development\.NET\dotnet-rest-api\Api.Data\obj\Debug\net8.0\Api.Data.pdb
+C:\Users\Felipe\Documents\Development\.NET\dotnet-rest-api\Api.Data\obj\Debug\net8.0\ref\Api.Data.dll
