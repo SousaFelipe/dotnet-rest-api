@@ -1,0 +1,14 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="Api.Data" 
+                   namespace="Api.Data.Entities">
+
+    <class name="User" table="users">
+        <id name="Id" column="id"></id>
+        <property name="Name" column="name" type="string" not-null="true" length="64"/>
+        <property name="Surname" column="surname" type="string" not-null="true" length="64"/>
+        <property name="Email" column="email" type="string" unique="true" not-null="true" length="128"/>
+        <property name="Password" column="password" type="string" not-null="true" length="255"/>
+        <property name="PhoneNumber" column="phone_number" type="string" not-null="true" length="16"/>
+    </class>
+
+</hibernate-mapping>
