@@ -10,7 +10,7 @@
 
         <property name="Name" column="name" not-null="true" length="64"/>
         <property name="Surname" column="surname" not-null="true" length="64"/>
-        <property name="Email" column="email" unique="true" not-null="true" length="128"/>
+        <property name="Email" column="email" unique="true" not-null="true" length="64"/>
         <property name="Password" column="password" not-null="true" length="255"/>
         <property name="PhoneNumber" column="phone_number" not-null="true" length="16"/>
 
