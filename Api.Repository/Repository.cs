@@ -1,27 +1,25 @@
 using NHibernate;
 using NHibernate.Criterion;
+using NHibernate.Linq;
 using System.Linq.Dynamic.Core;
 using Api.Repository.Interfaces;
-using System.Threading.Tasks;
-using NHibernate.Linq;
 
 
 namespace Api.Repository;
 
 
-public class Repository<T>(ISessionFactory sessionFactory) : IRepository<T> where T : class
+public class Repository<T>(ISession session) : IRepository<T> where T : class
 {
-    public ISessionFactory SessionFactory { get; init; } = sessionFactory;
+    public ISession Session { get; init; } = session;
 
 
     public async Task<T?> Create(T entity)
     {
-        using var session = SessionFactory.OpenSession();
-        using var transaction = session.BeginTransaction();
+        using var transaction = Session.BeginTransaction();
 
         try
         {
-            var result = await session.SaveAsync(entity);
+            var result = await Session.SaveAsync(entity);
             long id = Convert.ToInt64(result);
 
             transaction.Commit();
@@ -38,12 +36,10 @@ public class Repository<T>(ISessionFactory sessionFactory) : IRepository<T> wher
 
     public async Task<T?> FindBy(string column, object value)
     {
-        using var session = SessionFactory.OpenSession();
-
         try
         {
             string query = $"{column} == @0";
-            return await session.Query<T>().Where(query, value).FirstAsync();
+            return await Session.Query<T>().Where(query, value).FirstAsync();
         }
         catch (Exception)
         {
@@ -54,11 +50,9 @@ public class Repository<T>(ISessionFactory sessionFactory) : IRepository<T> wher
 
     public List<T> Read(int page, int size)
     {
-        using var session = SessionFactory.OpenSession();
-
         try
         {
-            var result = session.QueryOver<T>()
+            var result = Session.QueryOver<T>()
                 .Skip((page - 1) * size)
                 .Take(size)
                 .Future<T>();
@@ -74,11 +68,9 @@ public class Repository<T>(ISessionFactory sessionFactory) : IRepository<T> wher
 
     public int Count()
     {
-        using var session = SessionFactory.OpenSession();
-
         try
         {
-            var count = session.QueryOver<T>()
+            var count = Session.QueryOver<T>()
                 .Select(Projections.RowCount())
                 .FutureValue<int>();
 
@@ -93,12 +85,11 @@ public class Repository<T>(ISessionFactory sessionFactory) : IRepository<T> wher
 
     public async Task<T?> Update(long id, T entity)
     {
-        using var session = SessionFactory.OpenSession();
-        using var transaction = session.BeginTransaction();
+        using var transaction = Session.BeginTransaction();
 
         try
         {
-            await session.UpdateAsync(entity, id);
+            await Session.UpdateAsync(entity, id);
             transaction.Commit();
             
             return await FindBy("Id", id);
@@ -113,12 +104,11 @@ public class Repository<T>(ISessionFactory sessionFactory) : IRepository<T> wher
 
     public async Task<bool> Delete(T entity)
     {
-        using var session = SessionFactory.OpenSession();
-        using var transaction = session.BeginTransaction();
+        using var transaction = Session.BeginTransaction();
 
         try
         {
-            await session.DeleteAsync(entity);
+            await Session.DeleteAsync(entity);
             transaction.Commit();
 
             return true;

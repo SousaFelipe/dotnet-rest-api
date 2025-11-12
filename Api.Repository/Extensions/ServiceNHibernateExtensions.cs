@@ -21,9 +21,15 @@ public static class ServiceNHibernateExtensions
         var dataBaseSettings = configuration.GetSection("DatabaseSettings").Get<DatabaseSettings>();
         services.Configure<DatabaseSettings>(configuration.GetSection("DatabaseSettings"));
 
-        services.AddScoped(provider =>
+        services.AddSingleton(provider =>
         {
             return BuildSessionFactory(dataBaseSettings);
+        });
+
+        services.AddScoped(provider =>
+        {
+            var sessionFactory = provider.GetRequiredService<ISessionFactory>();
+            return sessionFactory.OpenSession();
         });
 
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
