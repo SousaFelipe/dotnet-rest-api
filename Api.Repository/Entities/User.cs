@@ -1,4 +1,4 @@
-namespace Api.Data.Entities;
+namespace Api.Repository.Entities;
 
 
 public class User

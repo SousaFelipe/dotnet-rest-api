@@ -1,4 +1,4 @@
-namespace Api.Data.Settings;
+namespace Api.Repository.Settings;
 
 
 public class DatabaseSettings

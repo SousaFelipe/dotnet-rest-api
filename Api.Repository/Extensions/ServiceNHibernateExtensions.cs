@@ -5,25 +5,28 @@ using NHibernate.Cfg;
 using NHibernate.Cfg.Loquacious;
 using NHibernate.Dialect;
 using NHibernate.Driver;
-using Api.Data.Settings;
+using Api.Repository.Settings;
+using Api.Repository.Interfaces;
 
 
-namespace Api.Data.Extensions;
+namespace Api.Repository.Extensions;
 
 
-public static class ServiceCollectionExtensions
+public static class ServiceNHibernateExtensions
 {
-    public static IServiceCollection AddDataServiceExtension(
+    public static IServiceCollection AddDataBaseServiceExtension(
         this IServiceCollection services,
         IConfiguration configuration)
     {
         var dataBaseSettings = configuration.GetSection("DatabaseSettings").Get<DatabaseSettings>();
         services.Configure<DatabaseSettings>(configuration.GetSection("DatabaseSettings"));
 
-        services.AddScoped<ISessionFactory>(provider =>
+        services.AddScoped(provider =>
         {
             return BuildSessionFactory(dataBaseSettings);
         });
+
+        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
         return services;
     }
@@ -33,12 +36,12 @@ public static class ServiceCollectionExtensions
     {
         if (settings == null)
         {
-            throw new Exception("As configurações do banco de dados não foram encontradas.");
+            throw new Exception("❌ As configurações do banco de dados não foram encontradas.");
         }
 
         var configuration = new Configuration();
         configuration.DataBaseIntegration(db => DataBaseIntegrationAction(db, settings));
-        configuration.AddAssembly(typeof(ServiceCollectionExtensions).Assembly);
+        configuration.AddAssembly(typeof(ServiceNHibernateExtensions).Assembly);
 
         return configuration.BuildSessionFactory();
     }
