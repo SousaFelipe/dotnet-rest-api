@@ -48,10 +48,11 @@ public class UserService(IRepository<User> userRepository) : IUserService
             throw new InvalidRequestException();
         }
 
+        var total = UserRepository.Count();
         var entities = UserRepository.Read(page, size);
         var dtos = entities.ConvertAll(user => new UserResponse(user));
 
-        return new PagedResponse<UserResponse>(dtos, page, size, 0);
+        return new PagedResponse<UserResponse>(dtos, page, size, total);
     }
 
 
