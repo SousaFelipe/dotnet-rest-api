@@ -16,17 +16,17 @@ public class GlobalExceptionHandler() : IExceptionHandler
         if (exception is BaseServiceException serviceException)
         {
             httpContext.Response.StatusCode = (int)serviceException.StatusCode;
-            return await TryWriteRespondWithException(serviceException.GetDetails(), httpContext, cancellationToken);
+            return await TryWriteResponseWithException(serviceException.GetDetails(), httpContext, cancellationToken);
         }
 
         var defaultException = InternalServerException.Build();
 
         httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-        return await TryWriteRespondWithException(defaultException.GetDetails(), httpContext, cancellationToken);
+        return await TryWriteResponseWithException(defaultException.GetDetails(), httpContext, cancellationToken);
     }
 
 
-    private static async Task<bool> TryWriteRespondWithException(
+    private static async Task<bool> TryWriteResponseWithException(
         ProblemDetails details,
         HttpContext httpContext,
         CancellationToken cancellationToken)
