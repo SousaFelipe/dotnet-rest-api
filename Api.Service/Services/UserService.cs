@@ -64,7 +64,7 @@ public class UserService(IRepository<User> userRepository) : IUserService
         var entities = UserRepository.Read(page, size);
         var dtos = entities.ConvertAll(user => new UserResultDto(user));
 
-        return new PagedResponse<UserResultDto>(dtos, page, size, total);
+        return new PagedResponse<UserResultDto>(dtos, total, page, size);
     }
 
 
