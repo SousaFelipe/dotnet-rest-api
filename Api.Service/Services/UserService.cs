@@ -36,7 +36,7 @@ public class UserService(IRepository<User> userRepository) : IUserService
             BirthDate = userDto.BirthDate.ToDateTime(new TimeOnly(0, 0, 0))
         };
         
-        var createdUser = await UserRepository.Create(user) ?? throw new RecordCreationException();
+        var createdUser = await UserRepository.Create(user) ?? throw new RecordCreateException();
         return new UserResultDto(createdUser);
     }
 
@@ -68,7 +68,7 @@ public class UserService(IRepository<User> userRepository) : IUserService
     }
 
 
-    public UserResultDto UpdateUser(long userId, UserUpdateDto userDto)
+    public async Task<UserResultDto> UpdateUser(long userId, UserUpdateDto userDto)
     {
         if (userId <= 0 || userDto == null)
         {
@@ -83,7 +83,7 @@ public class UserService(IRepository<User> userRepository) : IUserService
         user.PhoneNumber = userDto.PhoneNumber ?? user.PhoneNumber;
         user.BirthDate = userDto.BirthDate?.ToDateTime(new TimeOnly(0, 0, 0, 0)) ?? user.BirthDate;
 
-        var updatedUser = UserRepository.Update(userId, user)
+        var updatedUser = await UserRepository.Update(userId, user)
             ?? throw new RecordUpdateException();
 
         return new UserResultDto(updatedUser);
@@ -97,6 +97,12 @@ public class UserService(IRepository<User> userRepository) : IUserService
             throw new InvalidRequestException();
         }
 
-        await UserRepository.Delete(userId);
+        var userFound = UserRepository.FindBy("Id", userId) ?? throw new RecordNotFoundException();
+        var userHasBeenRemoved = await UserRepository.Delete(userFound);
+
+        if (!userHasBeenRemoved)
+        {
+            throw new RecordDeleteException();
+        }
     }
 }

@@ -70,6 +70,7 @@ public class UserController(IUserService userService) : ControllerBase
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> Delete(long id)
     {
+        await UserService.DeleteUser(id);
         return Ok();
     }
 }

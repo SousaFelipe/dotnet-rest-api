@@ -2,6 +2,7 @@ using NHibernate;
 using NHibernate.Criterion;
 using System.Linq.Dynamic.Core;
 using Api.Repository.Interfaces;
+using System.Threading.Tasks;
 
 
 namespace Api.Repository;
@@ -89,14 +90,14 @@ public class Repository<T>(ISessionFactory sessionFactory) : IRepository<T> wher
     }
 
 
-    public T? Update(long id, T entity)
+    public async Task<T?> Update(long id, T entity)
     {
         using var session = SessionFactory.OpenSession();
         using var transaction = session.BeginTransaction();
 
         try
         {
-            session.Update(entity, id);
+            await session.UpdateAsync(entity, id);
             transaction.Commit();
             
             return FindBy("Id", id);
@@ -109,8 +110,22 @@ public class Repository<T>(ISessionFactory sessionFactory) : IRepository<T> wher
     }
 
 
-    public Task<bool> Delete(long id)
+    public async Task<bool> Delete(T entity)
     {
-        throw new NotImplementedException();
+        using var session = SessionFactory.OpenSession();
+        using var transaction = session.BeginTransaction();
+
+        try
+        {
+            await session.DeleteAsync(entity);
+            transaction.Commit();
+
+            return true;
+        }
+        catch (Exception)
+        {
+            transaction.Rollback();
+            return false;
+        }
     }
 }

@@ -15,7 +15,7 @@ public interface IUserService
     public PagedResponse<UserResultDto> ReadPagedUsers(int page, int size);
 
 
-    public UserResultDto UpdateUser(long userId, UserUpdateDto userDto);
+    public Task<UserResultDto> UpdateUser(long userId, UserUpdateDto userDto);
 
 
     public Task DeleteUser(long userId);
