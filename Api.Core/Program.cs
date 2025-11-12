@@ -1,7 +1,22 @@
-var builder = WebApplication.CreateBuilder(args);
+using Api.Core;
+using Api.Data.Interfaces;
+using Api.Data.Repositories;
+using Api.Service.Interfaces;
+using Api.Service.Services;
+
+
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 
 builder.Services.AddControllers();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+
 builder.Services.AddSwaggerGen(setup =>
 {
     setup.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
@@ -19,7 +34,7 @@ builder.Services.AddSwaggerGen(setup =>
 });
 
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 
 if (app.Environment.IsDevelopment())
@@ -29,6 +44,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseExceptionHandler();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
