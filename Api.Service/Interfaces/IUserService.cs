@@ -1,21 +1,22 @@
-using Api.Data.Entities;
+using Api.Repository.Entities;
+using Api.Service.Dtos;
 
 
 namespace Api.Service.Interfaces;
 
 
-public interface IUserService : IService
+public interface IUserService
 {
-    public Task<User> CreateUser(User user);
+    public Task<UserResponse> CreateUser(User user);
 
 
-    public Task<User?> ReadUser(long userId);
+    public Task<UserResponse?> FindUser(long userId);
 
 
-    public Task<IEnumerable<User>> ReadPagedUsers(int page, int size);
+    public PagedResponse<UserResponse> ReadPagedUsers(int page, int size);
 
 
-    public Task<User> UpdateUser(long userId, User user);
+    public Task<UserResponse> UpdateUser(long userId, User user);
 
 
     public Task<bool> DeleteUser(long userId);

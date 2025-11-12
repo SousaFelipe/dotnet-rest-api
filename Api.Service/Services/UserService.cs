@@ -1,5 +1,6 @@
-using Api.Data.Entities;
-using Api.Data.Interfaces;
+using Api.Repository.Entities;
+using Api.Repository.Interfaces;
+using Api.Service.Dtos;
 using Api.Service.Exceptions;
 using Api.Service.Interfaces;
 
@@ -7,38 +8,54 @@ using Api.Service.Interfaces;
 namespace Api.Service.Services;
 
 
-public class UserService(IUserRepository userRepository) : IUserService
+public class UserService(IRepository<User> userRepository) : IUserService
 {
-    private IUserRepository UserRepository { get; init; } = userRepository;
+    private IRepository<User> UserRepository { get; init; } = userRepository;
 
 
-    public async Task<User> CreateUser(User user)
+    public async Task<UserResponse> CreateUser(User user)
     {
         if (user == null)
         {
             throw new InvalidRequestException();
         }
-        return await UserRepository.CreateUser(user) ?? throw new UserCreationException();
+
+        var createdUser = await UserRepository.Create(user)
+            ?? throw new UserCreationException();
+
+        return new UserResponse(createdUser);
     }
 
 
-    public async Task<User?> ReadUser(long userId)
+    public async Task<UserResponse?> FindUser(long userId)
     {
         if (userId <= 0)
         {
             throw new InvalidRequestException();
         }
-        return await UserRepository.ReadUser(userId) ?? throw new RecordNotFoundException();
+
+        var user = await UserRepository.Find(userId)
+            ?? throw new RecordNotFoundException();
+
+        return new UserResponse(user);
     }
 
 
-    public Task<IEnumerable<User>> ReadPagedUsers(int page, int size)
+    public PagedResponse<UserResponse> ReadPagedUsers(int page, int size)
     {
-        throw new NotImplementedException();
+        if (page <= 0 || size <= 0)
+        {
+            throw new InvalidRequestException();
+        }
+
+        var entities = UserRepository.Read(page, size);
+        var dtos = entities.ConvertAll(user => new UserResponse(user));
+
+        return new PagedResponse<UserResponse>(dtos, page, size, 0);
     }
 
 
-    public Task<User> UpdateUser(long userId, User user)
+    public Task<UserResponse> UpdateUser(long userId, User user)
     {
         throw new NotImplementedException();
     }
