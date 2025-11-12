@@ -13,21 +13,31 @@ public class UserService(IRepository<User> userRepository) : IUserService
     private IRepository<User> UserRepository { get; init; } = userRepository;
 
 
-    public async Task<UserResponse> CreateUser(User user)
+    public async Task<UserResultDto> CreateUser(UserCreateDto userDto)
     {
-        if (user == null)
+        if (userDto == null)
         {
             throw new InvalidRequestException();
         }
 
+        var user = new User
+        {
+            Name = userDto.Name,
+            Surname = userDto.Surname,
+            Email = userDto.Email,
+            Password = userDto.Password,
+            PhoneNumber = userDto.PhoneNumber,
+            BirthDate = userDto.BirthDate.ToDateTime(new TimeOnly(0, 0, 0))
+        };
+        
         var createdUser = await UserRepository.Create(user)
             ?? throw new UserCreationException();
 
-        return new UserResponse(createdUser);
+        return new UserResultDto(createdUser);
     }
 
 
-    public async Task<UserResponse?> FindUser(long userId)
+    public async Task<UserResultDto?> FindUser(long userId)
     {
         if (userId <= 0)
         {
@@ -37,11 +47,11 @@ public class UserService(IRepository<User> userRepository) : IUserService
         var user = await UserRepository.Find(userId)
             ?? throw new RecordNotFoundException();
 
-        return new UserResponse(user);
+        return new UserResultDto(user);
     }
 
 
-    public PagedResponse<UserResponse> ReadPagedUsers(int page, int size)
+    public PagedResponse<UserResultDto> ReadPagedUsers(int page, int size)
     {
         if (page <= 0 || size <= 0)
         {
@@ -50,13 +60,13 @@ public class UserService(IRepository<User> userRepository) : IUserService
 
         var total = UserRepository.Count();
         var entities = UserRepository.Read(page, size);
-        var dtos = entities.ConvertAll(user => new UserResponse(user));
+        var dtos = entities.ConvertAll(user => new UserResultDto(user));
 
-        return new PagedResponse<UserResponse>(dtos, page, size, total);
+        return new PagedResponse<UserResultDto>(dtos, page, size, total);
     }
 
 
-    public Task<UserResponse> UpdateUser(long userId, User user)
+    public Task<UserResultDto> UpdateUser(long userId, User user)
     {
         throw new NotImplementedException();
     }

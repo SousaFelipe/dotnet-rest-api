@@ -7,16 +7,16 @@ namespace Api.Service.Interfaces;
 
 public interface IUserService
 {
-    public Task<UserResponse> CreateUser(User user);
+    public Task<UserResultDto> CreateUser(UserCreateDto userDto);
 
 
-    public Task<UserResponse?> FindUser(long userId);
+    public Task<UserResultDto?> FindUser(long userId);
 
 
-    public PagedResponse<UserResponse> ReadPagedUsers(int page, int size);
+    public PagedResponse<UserResultDto> ReadPagedUsers(int page, int size);
 
 
-    public Task<UserResponse> UpdateUser(long userId, User user);
+    public Task<UserResultDto> UpdateUser(long userId, User user);
 
 
     public Task<bool> DeleteUser(long userId);
