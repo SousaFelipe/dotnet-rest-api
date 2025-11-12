@@ -19,7 +19,7 @@ public class UserController(IUserService userService) : ControllerBase
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult> Get(long id)
+    public async Task<ActionResult> Find(long id)
     {
         var user = await UserService.FindUser(id);
         return Ok(user);
@@ -31,7 +31,7 @@ public class UserController(IUserService userService) : ControllerBase
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status500InternalServerError)]
-    public ActionResult GetPaged(int page, int size)
+    public ActionResult ReadPaged(int page, int size)
     {
         var result = UserService.ReadPagedUsers(page, size);
         return Ok(result);
@@ -43,7 +43,7 @@ public class UserController(IUserService userService) : ControllerBase
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult> Post()
+    public async Task<ActionResult> Create()
     {
         return Ok();
     }
@@ -54,7 +54,7 @@ public class UserController(IUserService userService) : ControllerBase
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult> Put(long id)
+    public async Task<ActionResult> Update(long id)
     {
         return Ok();
     }
