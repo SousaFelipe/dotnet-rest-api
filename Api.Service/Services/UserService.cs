@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Api.Repository.Entities;
 using Api.Repository.Interfaces;
 using Api.Service.Dtos;
@@ -41,15 +42,17 @@ public class UserService(IRepository<User> userRepository) : IUserService
     }
 
 
-    public UserResultDto? FindUser(long userId)
+    public async Task<UserResultDto?> FindUser(long userId)
     {
         if (userId <= 0)
         {
             throw new InvalidRequestException();
         }
 
-        var user = UserRepository.FindBy("Id", userId) ?? throw new RecordNotFoundException();
-        return new UserResultDto(user);
+        var foundUser = await UserRepository.FindBy("Id", userId)
+            ?? throw new RecordNotFoundException();
+
+        return new UserResultDto(foundUser);
     }
 
 
@@ -75,7 +78,7 @@ public class UserService(IRepository<User> userRepository) : IUserService
             throw new InvalidRequestException();
         }
 
-        var user = UserRepository.FindBy("Id", userId)
+        var user = await UserRepository.FindBy("Id", userId)
             ?? throw new RecordNotFoundException();
 
         user.Name = userDto.Name ?? user.Name;
@@ -97,9 +100,10 @@ public class UserService(IRepository<User> userRepository) : IUserService
             throw new InvalidRequestException();
         }
 
-        var userFound = UserRepository.FindBy("Id", userId) ?? throw new RecordNotFoundException();
-        var userHasBeenRemoved = await UserRepository.Delete(userFound);
+        var userFound = await UserRepository.FindBy("Id", userId)
+            ?? throw new RecordNotFoundException();
 
+        var userHasBeenRemoved = await UserRepository.Delete(userFound);
         if (!userHasBeenRemoved)
         {
             throw new RecordDeleteException();

@@ -32,7 +32,7 @@ public class UserController(IUserService userService) : ControllerBase
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status500InternalServerError)]
-    public ActionResult Find(long id)
+    public async Task<ActionResult> Find(long id)
     {
         var user = UserService.FindUser(id);
         return Ok(user);

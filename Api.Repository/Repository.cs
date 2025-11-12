@@ -3,6 +3,7 @@ using NHibernate.Criterion;
 using System.Linq.Dynamic.Core;
 using Api.Repository.Interfaces;
 using System.Threading.Tasks;
+using NHibernate.Linq;
 
 
 namespace Api.Repository;
@@ -35,14 +36,14 @@ public class Repository<T>(ISessionFactory sessionFactory) : IRepository<T> wher
     }
 
 
-    public T? FindBy(string column, object value)
+    public async Task<T?> FindBy(string column, object value)
     {
         using var session = SessionFactory.OpenSession();
 
         try
         {
             string query = $"{column} == @0";
-            return session.Query<T>().Where(query, value).First<T>();
+            return await session.Query<T>().Where(query, value).FirstAsync();
         }
         catch (Exception)
         {

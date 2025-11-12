@@ -5,7 +5,7 @@ public interface IRepository<T> where T: class
 {
     public Task<T?> Create(T entity);
 
-    public T? FindBy(string column, object value);
+    public Task<T?> FindBy(string column, object value);
 
     public List<T> Read(int page, int size);
 
