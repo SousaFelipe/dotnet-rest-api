@@ -10,7 +10,7 @@ public interface IUserService
     public Task<UserResultDto> CreateUser(UserCreateDto userDto);
 
 
-    public Task<UserResultDto?> FindUser(long userId);
+    public UserResultDto? FindUser(long userId);
 
 
     public PagedResponse<UserResultDto> ReadPagedUsers(int page, int size);

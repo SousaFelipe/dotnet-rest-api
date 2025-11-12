@@ -1,5 +1,6 @@
 using NHibernate;
 using NHibernate.Criterion;
+using System.Linq.Dynamic.Core;
 using Api.Repository.Interfaces;
 
 
@@ -23,7 +24,7 @@ public class Repository<T>(ISessionFactory sessionFactory) : IRepository<T> wher
 
             transaction.Commit();
 
-            return await Find(id);
+            return FindBy("Id", id);
         }
         catch (Exception)
         {
@@ -33,13 +34,14 @@ public class Repository<T>(ISessionFactory sessionFactory) : IRepository<T> wher
     }
 
 
-    public async Task<T?> Find(long id)
+    public T? FindBy(string column, object value)
     {
         using var session = SessionFactory.OpenSession();
 
         try
         {
-            return await session.GetAsync<T?>(id);
+            string query = $"{column} == @0";
+            return session.Query<T>().Where(query, value).First<T>();
         }
         catch (Exception)
         {

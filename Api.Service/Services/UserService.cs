@@ -20,6 +20,12 @@ public class UserService(IRepository<User> userRepository) : IUserService
             throw new InvalidRequestException();
         }
 
+        var userWithSameEmail = UserRepository.FindBy("Email", userDto.Email);
+        if (userWithSameEmail != null)
+        {
+            throw new UserEmailAlreadyExistsException(userDto.Email);
+        }
+
         var user = new User
         {
             Name = userDto.Name,
@@ -30,23 +36,19 @@ public class UserService(IRepository<User> userRepository) : IUserService
             BirthDate = userDto.BirthDate.ToDateTime(new TimeOnly(0, 0, 0))
         };
         
-        var createdUser = await UserRepository.Create(user)
-            ?? throw new UserCreationException();
-
+        var createdUser = await UserRepository.Create(user) ?? throw new RecordCreationException();
         return new UserResultDto(createdUser);
     }
 
 
-    public async Task<UserResultDto?> FindUser(long userId)
+    public UserResultDto? FindUser(long userId)
     {
         if (userId <= 0)
         {
             throw new InvalidRequestException();
         }
 
-        var user = await UserRepository.Find(userId)
-            ?? throw new RecordNotFoundException();
-
+        var user = UserRepository.FindBy("Id", userId) ?? throw new RecordNotFoundException();
         return new UserResultDto(user);
     }
 

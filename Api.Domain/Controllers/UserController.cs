@@ -14,14 +14,27 @@ public class UserController(IUserService userService) : ControllerBase
     private IUserService UserService { get; init; } = userService;
 
 
+    [HttpPost]
+    [ProducesResponseType(typeof(UserResultDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status409Conflict)]
+    [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult> Create([FromBody] UserCreateDto newUser)
+    {
+        var createdUser = await UserService.CreateUser(newUser);
+        return Ok(createdUser);
+    }
+
+
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(UserResultDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult> Find(long id)
+    public ActionResult Find(long id)
     {
-        var user = await UserService.FindUser(id);
+        var user = UserService.FindUser(id);
         return Ok(user);
     }
 
@@ -35,18 +48,6 @@ public class UserController(IUserService userService) : ControllerBase
     {
         var result = UserService.ReadPagedUsers(page, size);
         return Ok(result);
-    }
-
-
-    [HttpPost]
-    [ProducesResponseType(typeof(UserResultDto), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult> Create([FromBody] UserCreateDto newUser)
-    {
-        var createdUser = await UserService.CreateUser(newUser);
-        return Ok();
     }
 
 
