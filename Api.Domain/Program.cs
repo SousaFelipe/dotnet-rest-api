@@ -1,7 +1,5 @@
-using Api.Core;
-using Api.Data.Extensions;
-using Api.Data.Interfaces;
-using Api.Data.Repositories;
+using Api.Domain.Core;
+using Api.Repository.Extensions;
 using Api.Service.Interfaces;
 using Api.Service.Services;
 
@@ -10,13 +8,12 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddProblemDetails();
-builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddExceptionHandler<ExceptionHandler>();
 
-// Extensão criada em /Api.Data/Extensions/ServiceCollectionExtensions.cs
-builder.Services.AddDataServiceExtension(builder.Configuration);
+builder.Services.AddDataBaseServiceExtension(builder.Configuration);
+builder.Services.AddMigrationServiceExtension(builder.Configuration);
 
 builder.Services.AddControllers();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 
@@ -42,6 +39,7 @@ WebApplication app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    app.Services.UseMigrationRunner(args);
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();

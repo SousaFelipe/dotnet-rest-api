@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Api.Service.Exceptions;
 
 
-namespace Api.Core;
+namespace Api.Domain.Core;
 
 
-public class GlobalExceptionHandler() : IExceptionHandler
+public class ExceptionHandler() : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,

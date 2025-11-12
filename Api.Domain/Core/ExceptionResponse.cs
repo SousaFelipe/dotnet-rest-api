@@ -1,7 +1,7 @@
-namespace Api.Core.Dtos;
+namespace Api.Domain.Core;
 
 
-public abstract class ErrorResponse
+public class ExceptionResponse
 {
     public int Status { get; set; }
     public string Title { get; set; } = string.Empty;
