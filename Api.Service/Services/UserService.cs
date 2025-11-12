@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Api.Repository.Entities;
 using Api.Repository.Interfaces;
 using Api.Service.Dtos;
@@ -21,7 +20,7 @@ public class UserService(IRepository<User> userRepository) : IUserService
             throw new InvalidRequestException();
         }
 
-        var userWithSameEmail = UserRepository.FindBy("Email", userDto.Email);
+        var userWithSameEmail = await UserRepository.FindBy("Email", userDto.Email);
         if (userWithSameEmail != null)
         {
             throw new UserEmailAlreadyExistsException(userDto.Email);
@@ -32,10 +31,10 @@ public class UserService(IRepository<User> userRepository) : IUserService
             Name = userDto.Name,
             Surname = userDto.Surname,
             Email = userDto.Email,
-            Password = userDto.Password,
             PhoneNumber = userDto.PhoneNumber,
             BirthDate = userDto.BirthDate.ToDateTime(new TimeOnly(0, 0, 0))
         };
+        user.SetPassword(userDto.Password);
         
         var createdUser = await UserRepository.Create(user) ?? throw new RecordCreateException();
         return new UserResultDto(createdUser);
