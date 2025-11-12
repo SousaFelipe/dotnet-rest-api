@@ -68,14 +68,35 @@ public class UserService(IRepository<User> userRepository) : IUserService
     }
 
 
-    public Task<UserResultDto> UpdateUser(long userId, User user)
+    public UserResultDto UpdateUser(long userId, UserUpdateDto userDto)
     {
-        throw new NotImplementedException();
+        if (userId <= 0 || userDto == null)
+        {
+            throw new InvalidRequestException();
+        }
+
+        var user = UserRepository.FindBy("Id", userId)
+            ?? throw new RecordNotFoundException();
+
+        user.Name = userDto.Name ?? user.Name;
+        user.Surname = userDto.Surname ?? user.Surname;
+        user.PhoneNumber = userDto.PhoneNumber ?? user.PhoneNumber;
+        user.BirthDate = userDto.BirthDate?.ToDateTime(new TimeOnly(0, 0, 0, 0)) ?? user.BirthDate;
+
+        var updatedUser = UserRepository.Update(userId, user)
+            ?? throw new RecordUpdateException();
+
+        return new UserResultDto(updatedUser);
     }
 
 
-    public Task<bool> DeleteUser(long userId)
+    public async Task DeleteUser(long userId)
     {
-        throw new NotImplementedException();
+        if (userId <= 0)
+        {
+            throw new InvalidRequestException();
+        }
+
+        await UserRepository.Delete(userId);
     }
 }

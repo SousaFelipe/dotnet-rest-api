@@ -89,9 +89,23 @@ public class Repository<T>(ISessionFactory sessionFactory) : IRepository<T> wher
     }
 
 
-    public Task<T> Update(long id, T entity)
+    public T? Update(long id, T entity)
     {
-        throw new NotImplementedException();
+        using var session = SessionFactory.OpenSession();
+        using var transaction = session.BeginTransaction();
+
+        try
+        {
+            session.Update(entity, id);
+            transaction.Commit();
+            
+            return FindBy("Id", id);
+        }
+        catch (Exception)
+        {
+            transaction.Rollback();
+            return null;
+        }
     }
 
 

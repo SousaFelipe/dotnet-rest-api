@@ -46,8 +46,8 @@ public class UserController(IUserService userService) : ControllerBase
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status500InternalServerError)]
     public ActionResult ReadPaged(int page, int size)
     {
-        var result = UserService.ReadPagedUsers(page, size);
-        return Ok(result);
+        var users = UserService.ReadPagedUsers(page, size);
+        return Ok(users);
     }
 
 
@@ -56,9 +56,10 @@ public class UserController(IUserService userService) : ControllerBase
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult> Update(long id)
+    public ActionResult Update(long id, [FromBody] UserUpdateDto userDto)
     {
-        return Ok();
+        var updatedUser = UserService.UpdateUser(id, userDto);
+        return Ok(updatedUser);
     }
 
 

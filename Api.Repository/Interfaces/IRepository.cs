@@ -11,7 +11,7 @@ public interface IRepository<T> where T: class
 
     public int Count();
 
-    public Task<T> Update(long id, T entity);
+    public T? Update(long id, T entity);
 
     public Task<bool> Delete(long id);
 }

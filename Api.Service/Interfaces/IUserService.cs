@@ -1,4 +1,3 @@
-using Api.Repository.Entities;
 using Api.Service.Dtos;
 
 
@@ -16,8 +15,8 @@ public interface IUserService
     public PagedResponse<UserResultDto> ReadPagedUsers(int page, int size);
 
 
-    public Task<UserResultDto> UpdateUser(long userId, User user);
+    public UserResultDto UpdateUser(long userId, UserUpdateDto userDto);
 
 
-    public Task<bool> DeleteUser(long userId);
+    public Task DeleteUser(long userId);
 }
