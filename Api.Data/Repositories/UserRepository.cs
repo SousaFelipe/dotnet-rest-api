@@ -1,21 +1,25 @@
 using Api.Data.Entities;
 using Api.Data.Interfaces;
+using NHibernate;
 
 
 namespace Api.Data.Repositories;
 
 
-public class UserRepository : IUserRepository
+public class UserRepository(ISessionFactory sessionFactory) : IUserRepository
 {
+    private ISessionFactory SessionFactory { get; init; } = sessionFactory;
+
+
     public async Task<User?> CreateUser(User user)
     {
-        using var session = DataBase.OpenSession();
+        using var session = SessionFactory.OpenSession();
         using var transaction = session.BeginTransaction();
 
         try
         {
-            object savedUserId = await session.SaveAsync(user);
-            long userId = Convert.ToInt64(savedUserId);
+            var result = await session.SaveAsync(user);
+            long userId = Convert.ToInt64(result);
 
             transaction.Commit();
 
@@ -32,7 +36,7 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> ReadUser(long userId)
     {
-        using var session = DataBase.OpenSession();
+        using var session = SessionFactory.OpenSession();
 
         try
         {

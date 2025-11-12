@@ -14,8 +14,8 @@
         <property name="Password" column="password" not-null="true" length="255"/>
         <property name="PhoneNumber" column="phone_number" not-null="true" length="16"/>
 
-        <property name="birthDate" column="birth_date" type="DateOnlyType"> 
-            <column name="BirthDate" sql-type="date" not-null="false" />
+        <property name="BirthDate"> 
+            <column name="birth_date" sql-type="date" not-null="false" />
         </property>
 
     </class>

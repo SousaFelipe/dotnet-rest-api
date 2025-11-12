@@ -9,7 +9,7 @@ public class User
     public virtual string Email { get; set; } = string.Empty;
     public virtual string Password { get; set; } = string.Empty;
     public virtual string PhoneNumber { get; set; } = string.Empty;
-    public virtual DateOnly BirthDate { get; set; }
+    public virtual DateTime BirthDate { get; set; }
 
 
     public User() { }
