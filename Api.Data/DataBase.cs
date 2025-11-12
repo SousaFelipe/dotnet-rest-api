@@ -9,7 +9,7 @@ using NHibernate.Driver;
 namespace Api.Data;
 
 
-public class NHibernateHelper
+public class DataBase
 {
     private static readonly object _lock = new();
     private static ISessionFactory? _sessionFactory;

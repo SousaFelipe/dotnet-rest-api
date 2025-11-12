@@ -9,7 +9,7 @@ public class UserRepository : IUserRepository
 {
     public async Task<User?> CreateUser(User user)
     {
-        using var session = NHibernateHelper.OpenSession();
+        using var session = DataBase.OpenSession();
         using var transaction = session.BeginTransaction();
 
         try
@@ -32,7 +32,7 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> ReadUser(long userId)
     {
-        using var session = NHibernateHelper.OpenSession();
+        using var session = DataBase.OpenSession();
 
         try
         {
