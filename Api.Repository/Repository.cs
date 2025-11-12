@@ -26,7 +26,7 @@ public class Repository<T>(ISessionFactory sessionFactory) : IRepository<T> wher
 
             transaction.Commit();
 
-            return FindBy("Id", id);
+            return await FindBy("Id", id);
         }
         catch (Exception)
         {
@@ -101,7 +101,7 @@ public class Repository<T>(ISessionFactory sessionFactory) : IRepository<T> wher
             await session.UpdateAsync(entity, id);
             transaction.Commit();
             
-            return FindBy("Id", id);
+            return await FindBy("Id", id);
         }
         catch (Exception)
         {

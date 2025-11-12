@@ -34,7 +34,7 @@ public class UserController(IUserService userService) : ControllerBase
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult> Find(long id)
     {
-        var user = UserService.FindUser(id);
+        var user = await UserService.FindUser(id);
         return Ok(user);
     }
 
