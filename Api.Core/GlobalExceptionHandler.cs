@@ -21,7 +21,7 @@ public class GlobalExceptionHandler() : IExceptionHandler
 
         var defaultException = InternalServerException.Build();
 
-        httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        httpContext.Response.StatusCode = (int)defaultException.StatusCode;
         return await TryWriteResponseWithException(defaultException.GetDetails(), httpContext, cancellationToken);
     }
 

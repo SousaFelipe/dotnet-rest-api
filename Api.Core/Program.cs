@@ -1,4 +1,5 @@
 using Api.Core;
+using Api.Data.Extensions;
 using Api.Data.Interfaces;
 using Api.Data.Repositories;
 using Api.Service.Interfaces;
@@ -11,6 +12,8 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
+// Extensão criada em /Api.Data/Extensions/ServiceCollectionExtensions.cs
+builder.Services.AddDataServiceExtension(builder.Configuration);
 
 builder.Services.AddControllers();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
