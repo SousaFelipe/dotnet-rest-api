@@ -142,9 +142,9 @@ Este padrão garante:
 - Separação de responsabilidades
 
 
-## 📝 Endpoints Principais
+## 📝 Endpoints
 
-- `POST /auth/login` - Autenticação de usuário
+- `POST /auth/login` - Autenticação de usuários
 - `POST /users` - Criar novo usuário (protegido)
 - `GET /users/{id}` - Obter usuário específico (protegido)
 - `GET /users/{page}/{size}` - Listar usuários de forma paginada (protegido)
@@ -177,6 +177,8 @@ Contribuições são bem-vindas! Sinta-se à vontade para:
 
 - [Github](https://github.com/SousaFelipe)
 - [Linkedin](www.linkedin.com/in/fscarmo)
+- [Instagram](https://www.instagram.com/flpss.carmo/)
+- [Email](mailto:flpssdocarmo@gmail.com)
 
 
 ## 📄 Licença
