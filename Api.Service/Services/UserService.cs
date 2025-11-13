@@ -41,14 +41,14 @@ public class UserService(IRepository<User> userRepository) : IUserService
     }
 
 
-    public async Task<UserResultDto?> FindUser(long userId)
+    public async Task<UserResultDto?> FindUser(string column, object value)
     {
-        if (userId <= 0)
+        if (value == null)
         {
             throw new InvalidRequestException();
         }
 
-        var foundUser = await UserRepository.FindBy("Id", userId)
+        var foundUser = await UserRepository.FindBy(column, value)
             ?? throw new RecordNotFoundException();
 
         return new UserResultDto(foundUser);
