@@ -1,6 +1,6 @@
 # REST API .NET 8
 
-API REST desenvolvida em C#, com .NET 8, com o objetivo de exercitar habilidades em desenvolvimento backend e implementação de padrões de projeto.
+API REST desenvolvida em C#, com .NET 8, para exercitar habilidades em desenvolvimento backend e implementação de padrões de projeto.
 
 
 ## 🎯 Objetivo
