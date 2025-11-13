@@ -1,4 +1,5 @@
 using Api.Domain.Core;
+using Api.Domain.Extensions;
 using Api.Repository.Extensions;
 using Api.Service.Interfaces;
 using Api.Service.Services;
@@ -12,7 +13,9 @@ builder.Services.AddExceptionHandler<ExceptionHandler>();
 
 builder.Services.AddDataBaseServiceExtension(builder.Configuration);
 builder.Services.AddMigrationServiceExtension(builder.Configuration);
+builder.Services.AddJwtServiceExtension(builder.Configuration);
 
+builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 builder.Services.AddScoped<IUserService, UserService>();
 
@@ -47,6 +50,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseExceptionHandler();
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
