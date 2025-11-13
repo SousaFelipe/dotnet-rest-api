@@ -126,6 +126,7 @@ Camada de acesso a dados responsável por:
                          └─────────────────────────┘     └──────────────────┘
 ```
 
+
 ### Benefícios desta Arquitetura
 
 - ✅ **Separação de Responsabilidades**: Cada camada possui funções bem definidas
@@ -140,12 +141,6 @@ Este padrão garante:
 - Melhor manutenibilidade do código
 - Separação de responsabilidades
 
-### Mapeamento de Dados
-
-Utiliza **NHibernate com mapeamento XML** para:
-- Separação entre código e configuração de persistência
-- Flexibilidade na configuração de mapeamentos
-- Controle detalhado sobre a estrutura do banco de dados
 
 ## 📝 Endpoints Principais
 
