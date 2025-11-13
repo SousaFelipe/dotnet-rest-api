@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Api.Repository.Extensions;
 
 
-public static class ServiceMigrationExtensions
+public static class MigrationsServiceExtension
 {
     public static void AddMigrationServiceExtension(
         this IServiceCollection services,
@@ -19,29 +19,7 @@ public static class ServiceMigrationExtensions
             .ConfigureRunner(rb => rb
                 .AddSqlServer()
                 .WithGlobalConnectionString(connectionString)
-                .ScanIn(typeof(ServiceMigrationExtensions).Assembly).For.Migrations())
+                .ScanIn(typeof(MigrationsServiceExtension).Assembly).For.Migrations())
             .AddLogging(lb => lb.AddFluentMigratorConsole());
-    }
-
-
-    public static void UseMigrationRunner(this IServiceProvider provider, string[] args)
-    {
-        if (args.Length < 1)
-        {
-            return;
-        }
-
-        using var scope = provider.CreateScope();
-        var runner = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
-
-        if (args.Length > 1 && args[0] == "down")
-        {
-            runner.MigrateDown(long.Parse(args[1]));
-        }
-        
-        if (args[0] == "up")
-        {
-            runner.MigrateUp();
-        }
     }
 }

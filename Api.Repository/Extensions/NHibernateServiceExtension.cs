@@ -5,21 +5,23 @@ using NHibernate.Cfg;
 using NHibernate.Cfg.Loquacious;
 using NHibernate.Dialect;
 using NHibernate.Driver;
-using Api.Repository.Settings;
 using Api.Repository.Interfaces;
+using Api.Repository.Settings;
 
 
 namespace Api.Repository.Extensions;
 
 
-public static class ServiceNHibernateExtensions
+public static class NHibernateServiceExtension
 {
     public static IServiceCollection AddDataBaseServiceExtension(
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        var dataBaseSettings = configuration.GetSection("DatabaseSettings").Get<DatabaseSettings>();
-        services.Configure<DatabaseSettings>(configuration.GetSection("DatabaseSettings"));
+        var configSection = configuration.GetSection("DatabaseSettings");
+        var dataBaseSettings = configSection.Get<DatabaseSettings>();
+
+        services.Configure<DatabaseSettings>(configSection);
 
         services.AddSingleton(provider =>
         {
@@ -47,7 +49,7 @@ public static class ServiceNHibernateExtensions
 
         var configuration = new Configuration();
         configuration.DataBaseIntegration(db => DataBaseIntegrationAction(db, settings));
-        configuration.AddAssembly(typeof(ServiceNHibernateExtensions).Assembly);
+        configuration.AddAssembly(typeof(NHibernateServiceExtension).Assembly);
 
         return configuration.BuildSessionFactory();
     }

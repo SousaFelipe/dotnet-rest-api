@@ -9,7 +9,7 @@ using Api.Service.Settings;
 namespace Api.Domain.Extensions;
 
 
-public static class ServiceJwtExtensions
+public static class JwtServiceExtension
 {
     public static IServiceCollection AddJwtServiceExtension(
         this IServiceCollection services,
