@@ -5,7 +5,7 @@ using Api.Repository.Entities;
 namespace Api.Service.Dtos;
 
 
-public class UserResultDto(User user)
+public class UserResult(User user)
 {
     public long Id { get; set; } = user.Id;
     public string Name { get; set; } = user.Name;

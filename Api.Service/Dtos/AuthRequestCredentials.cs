@@ -1,7 +1,7 @@
 namespace Api.Service.Dtos;
 
 
-public class AuthRequestDto
+public class AuthRequestCredentials
 {
     public string? Email { get; set; }
 

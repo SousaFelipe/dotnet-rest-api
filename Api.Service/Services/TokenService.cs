@@ -15,7 +15,7 @@ public class TokenService(JwtSettings jwtSettings) : ITokenService
     private JwtSettings JwtSettings { get; init; } = jwtSettings;
 
 
-    public string GenrateToken(UserResultDto user)
+    public string GenrateToken(UserResult user)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtSettings.Key));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -33,7 +33,7 @@ public class TokenService(JwtSettings jwtSettings) : ITokenService
     }
 
 
-    private static Claim[] BuildClaims(UserResultDto user)
+    private static Claim[] BuildClaims(UserResult user)
     {
         return
         [

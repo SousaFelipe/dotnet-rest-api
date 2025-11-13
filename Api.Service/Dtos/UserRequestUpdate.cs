@@ -1,7 +1,7 @@
 namespace Api.Service.Dtos;
 
 
-public class UserUpdateDto
+public class UserRequestUpdate
 {
     public string? Name { get; set; }
     public string? Surname { get; set; }

@@ -6,5 +6,5 @@ namespace Api.Service.Interfaces;
 
 public interface ITokenService
 {
-    public string GenrateToken(UserResultDto user);
+    public string GenrateToken(UserResult user);
 }

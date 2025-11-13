@@ -17,12 +17,12 @@ public class UserController(IUserService userService) : ControllerBase
 
     [HttpPost]
     [Authorize]
-    [ProducesResponseType(typeof(UserResultDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(UserResult), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status409Conflict)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult> Create([FromBody] UserCreateDto newUser)
+    public async Task<ActionResult> Create([FromBody] UserRequestCreate newUser)
     {
         var createdUser = await UserService.CreateUser(newUser);
         return Ok(createdUser);
@@ -31,7 +31,7 @@ public class UserController(IUserService userService) : ControllerBase
 
     [HttpGet("{id}")]
     [Authorize]
-    [ProducesResponseType(typeof(UserResultDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(UserResult), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status500InternalServerError)]
@@ -44,7 +44,7 @@ public class UserController(IUserService userService) : ControllerBase
 
     [HttpGet("{page}/{size}")]
     [Authorize]
-    [ProducesResponseType(typeof(PagedResponse<UserResultDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PagedResponse<UserResult>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status500InternalServerError)]
@@ -57,11 +57,11 @@ public class UserController(IUserService userService) : ControllerBase
 
     [HttpPut("{id}")]
     [Authorize]
-    [ProducesResponseType(typeof(UserResultDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(UserResult), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status500InternalServerError)]
-    public ActionResult Update(long id, [FromBody] UserUpdateDto userDto)
+    public ActionResult Update(long id, [FromBody] UserRequestUpdate userDto)
     {
         var updatedUser = UserService.UpdateUser(id, userDto);
         return Ok(updatedUser);

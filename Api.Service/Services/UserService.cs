@@ -13,7 +13,7 @@ public class UserService(IRepository<User> userRepository) : IUserService
     private IRepository<User> UserRepository { get; init; } = userRepository;
 
 
-    public async Task<UserResultDto> CreateUser(UserCreateDto userDto)
+    public async Task<UserResult> CreateUser(UserRequestCreate userDto)
     {
         if (userDto == null)
         {
@@ -37,11 +37,11 @@ public class UserService(IRepository<User> userRepository) : IUserService
         user.SetPassword(userDto.Password);
         
         var createdUser = await UserRepository.Create(user) ?? throw new RecordCreateException();
-        return new UserResultDto(createdUser);
+        return new UserResult(createdUser);
     }
 
 
-    public async Task<UserResultDto?> FindUser(string column, object value)
+    public async Task<UserResult?> FindUser(string column, object value)
     {
         if (value == null)
         {
@@ -51,11 +51,11 @@ public class UserService(IRepository<User> userRepository) : IUserService
         var foundUser = await UserRepository.FindBy(column, value)
             ?? throw new RecordNotFoundException();
 
-        return new UserResultDto(foundUser);
+        return new UserResult(foundUser);
     }
 
 
-    public PagedResponse<UserResultDto> ReadPagedUsers(int page, int size)
+    public PagedResponse<UserResult> ReadPagedUsers(int page, int size)
     {
         if (page <= 0 || size <= 0)
         {
@@ -64,13 +64,13 @@ public class UserService(IRepository<User> userRepository) : IUserService
 
         var total = UserRepository.Count();
         var entities = UserRepository.Read(page, size);
-        var dtos = entities.ConvertAll(user => new UserResultDto(user));
+        var dtos = entities.ConvertAll(user => new UserResult(user));
 
-        return new PagedResponse<UserResultDto>(dtos, total, page, size);
+        return new PagedResponse<UserResult>(dtos, total, page, size);
     }
 
 
-    public async Task<UserResultDto> UpdateUser(long userId, UserUpdateDto userDto)
+    public async Task<UserResult> UpdateUser(long userId, UserRequestUpdate userDto)
     {
         if (userId <= 0 || userDto == null)
         {
@@ -88,7 +88,7 @@ public class UserService(IRepository<User> userRepository) : IUserService
         var updatedUser = await UserRepository.Update(userId, user)
             ?? throw new RecordUpdateException();
 
-        return new UserResultDto(updatedUser);
+        return new UserResult(updatedUser);
     }
 
 

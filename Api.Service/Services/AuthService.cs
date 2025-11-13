@@ -12,7 +12,7 @@ public class AuthService(ITokenService tokenService, IUserService userService) :
     private IUserService UserService { get; init; } = userService;
 
 
-    public async Task<AuthResultDto> TryToLogin(AuthRequestDto authDto)
+    public async Task<AuthResult> TryToLogin(AuthRequestCredentials authDto)
     {
         if (authDto.Email == null || authDto.Password == null)
         {
@@ -28,6 +28,6 @@ public class AuthService(ITokenService tokenService, IUserService userService) :
         }
 
         var token = TokenService.GenrateToken(user);
-        return new AuthResultDto(token);
+        return new AuthResult(token);
     }
 }
