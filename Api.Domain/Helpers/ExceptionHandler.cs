@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Api.Service.Exceptions;
 
 
-namespace Api.Domain.Core;
+namespace Api.Domain.Helpers;
 
 
 public class ExceptionHandler() : IExceptionHandler

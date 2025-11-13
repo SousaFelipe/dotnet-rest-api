@@ -1,4 +1,4 @@
-namespace Api.Domain.Core;
+namespace Api.Domain.Helpers;
 
 
 public class ExceptionResponse

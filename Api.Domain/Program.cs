@@ -1,4 +1,4 @@
-using Api.Domain.Core;
+using Api.Domain.Helpers;
 using Api.Domain.Extensions;
 using Api.Repository.Extensions;
 using Api.Service.Interfaces;
@@ -22,20 +22,11 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 
-builder.Services.AddSwaggerGen(setup =>
+builder.Services.AddSwaggerGen(options =>
 {
-    setup.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-    {
-        Version = "1.0.0",
-        Title = ".NET REST API",
-        Description = "API REST com um CRUD simples para manipulação de autenticação de usuários",
-        Contact = new Microsoft.OpenApi.Models.OpenApiContact
-        {
-            Email = "flpssdocarmo@gmail.com",
-            Name = "Felipe S. Carmo",
-            Url = new Uri("https://github.com/SousaFelipe")
-        }
-    });
+    SwaggerOptionsBuilder.BuildDocInfo(options);
+    SwaggerOptionsBuilder.BuildSecurityDefinitions(options);
+    SwaggerOptionsBuilder.BuildSecurityRequirement(options);
 });
 
 

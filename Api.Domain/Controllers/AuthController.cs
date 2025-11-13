@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Api.Domain.Core;
+using Api.Domain.Helpers;
 using Api.Service.Dtos;
 using Api.Service.Interfaces;
 
