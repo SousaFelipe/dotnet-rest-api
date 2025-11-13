@@ -17,6 +17,8 @@ builder.Services.AddJwtServiceExtension(builder.Configuration);
 
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
+
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 

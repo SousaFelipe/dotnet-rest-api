@@ -1,3 +1,4 @@
+using Microsoft.IdentityModel.Tokens;
 using Api.Repository.Entities;
 
 
@@ -12,4 +13,15 @@ public class UserResultDto(User user)
     public string Email { get; set; } = user.Email;
     public string PhoneNumber { get; set; } = user.PhoneNumber;
     public DateOnly BirthDate { get; set; } = DateOnly.FromDateTime(user.BirthDate);
+    private string Password { get; set; } = user.Password;
+
+
+    public virtual bool VerifyPassword(string plainTextPassword)
+    {
+        if (Password.IsNullOrEmpty() || plainTextPassword.IsNullOrEmpty())
+        {
+            return false;
+        }
+        return BCrypt.Net.BCrypt.Verify(plainTextPassword, Password);
+    }
 }

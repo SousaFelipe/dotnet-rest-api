@@ -2,9 +2,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Api.Repository.Entities;
 using Api.Service.Interfaces;
 using Api.Service.Settings;
+using Api.Service.Dtos;
 
 
 namespace Api.Service.Services;
@@ -15,7 +15,7 @@ public class TokenService(JwtSettings jwtSettings) : ITokenService
     private JwtSettings JwtSettings { get; init; } = jwtSettings;
 
 
-    public string GenrateToken(User user)
+    public string GenrateToken(UserResultDto user)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtSettings.Key));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -33,7 +33,7 @@ public class TokenService(JwtSettings jwtSettings) : ITokenService
     }
 
 
-    private static Claim[] BuildClaims(User user)
+    private static Claim[] BuildClaims(UserResultDto user)
     {
         return
         [

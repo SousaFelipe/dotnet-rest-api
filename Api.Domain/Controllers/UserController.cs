@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Api.Domain.Core;
 using Api.Service.Dtos;
 using Api.Service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace Api.Domain.Controllers;
@@ -15,6 +16,7 @@ public class UserController(IUserService userService) : ControllerBase
 
 
     [HttpPost]
+    [Authorize]
     [ProducesResponseType(typeof(UserResultDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
@@ -28,6 +30,7 @@ public class UserController(IUserService userService) : ControllerBase
 
 
     [HttpGet("{id}")]
+    [Authorize]
     [ProducesResponseType(typeof(UserResultDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
@@ -40,6 +43,7 @@ public class UserController(IUserService userService) : ControllerBase
 
 
     [HttpGet("{page}/{size}")]
+    [Authorize]
     [ProducesResponseType(typeof(PagedResponse<UserResultDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
@@ -52,6 +56,7 @@ public class UserController(IUserService userService) : ControllerBase
 
 
     [HttpPut("{id}")]
+    [Authorize]
     [ProducesResponseType(typeof(UserResultDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
@@ -64,6 +69,7 @@ public class UserController(IUserService userService) : ControllerBase
 
 
     [HttpDelete("{id}")]
+    [Authorize]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
