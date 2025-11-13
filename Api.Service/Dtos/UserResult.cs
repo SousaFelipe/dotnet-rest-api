@@ -22,6 +22,14 @@ public class UserResult(User user)
         {
             return false;
         }
-        return BCrypt.Net.BCrypt.Verify(plainTextPassword, Password);
+        
+        try
+        {
+            return BCrypt.Net.BCrypt.Verify(plainTextPassword, Password);
+        }
+        catch (Exception)
+        {
+            return false;
+        }
     }
 }
