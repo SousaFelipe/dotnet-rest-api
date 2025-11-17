@@ -23,4 +23,22 @@ public class User
     {
         Password = BCrypt.Net.BCrypt.HashPassword(plainTextPassword);
     }
+
+
+    public virtual bool VerifyPassword(string plainTextPassword)
+    {
+        if (Password.IsNullOrEmpty() || plainTextPassword.IsNullOrEmpty())
+        {
+            return false;
+        }
+        
+        try
+        {
+            return BCrypt.Net.BCrypt.Verify(plainTextPassword, Password);
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
 }

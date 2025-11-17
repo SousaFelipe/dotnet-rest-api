@@ -1,3 +1,5 @@
+using Api.Repository.Entities;
+using Api.Repository.Interfaces;
 using Api.Service.Dtos;
 using Api.Service.Exceptions;
 using Api.Service.Interfaces;
@@ -6,10 +8,12 @@ using Api.Service.Interfaces;
 namespace Api.Service.Services;
 
 
-public class AuthService(ITokenService tokenService, IUserService userService) : IAuthService
+public class AuthService(
+    IRepository<User> userRepository,
+    ITokenService tokenService) : IAuthService
 {
+    private IRepository<User> UserRepository { get; init; } = userRepository;
     private ITokenService TokenService { get; init; } = tokenService;
-    private IUserService UserService { get; init; } = userService;
 
 
     public async Task<AuthResult> TryToLogin(AuthRequestCredentials authDto)
@@ -19,7 +23,7 @@ public class AuthService(ITokenService tokenService, IUserService userService) :
             throw new AuthMissingCredentialsException();
         }
 
-        var user = await UserService.FindUser("email", authDto.Email)
+        var user = await UserRepository.FindBy("email", authDto.Email)
             ?? throw new AuthInvalidCredentialsException();
 
         if (!user.VerifyPassword(authDto.Password))
@@ -27,7 +31,9 @@ public class AuthService(ITokenService tokenService, IUserService userService) :
             throw new AuthInvalidCredentialsException();
         }
 
-        var token = TokenService.GenrateToken(user);
+        var userResult = new UserResult(user);
+        var token = TokenService.GenrateToken(userResult);
+        
         return new AuthResult(token);
     }
 }
