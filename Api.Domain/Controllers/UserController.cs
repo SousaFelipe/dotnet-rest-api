@@ -16,8 +16,8 @@ public class UserController(IUserService userService) : ControllerBase
 
 
     [HttpPost]
-    [Authorize]
-    [ProducesResponseType(typeof(UserResult), StatusCodes.Status200OK)]
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(UserResult), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ExceptionResponse), StatusCodes.Status409Conflict)]
@@ -25,7 +25,11 @@ public class UserController(IUserService userService) : ControllerBase
     public async Task<ActionResult> Create([FromBody] UserRequestCreate newUser)
     {
         var createdUser = await UserService.CreateUser(newUser);
-        return Ok(createdUser);
+        return CreatedAtAction(
+            nameof(Find),
+            new { Id = createdUser.Id },
+            createdUser
+        );
     }
 
 
