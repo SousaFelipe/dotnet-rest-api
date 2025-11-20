@@ -61,9 +61,10 @@ dotnet restore
 dotnet build
 ```
 
-5. Execute a aplicação:
+5. Execute a aplicação:\
+Obs: será necessário incluir o parâmetro `-- up` apenas na primeira inicialização do projeto.
 ```bash
-dotnet run --project Api.Domain
+dotnet run --project Api.Domain -- up
 ```
 
 
@@ -90,9 +91,9 @@ O projeto segue uma **Arquitetura em Camadas (N-Layer Architecture)** com separa
 
 #### 1. **Api.Domain** (Presentation Layer)
 Camada de apresentação responsável por:
+- Inicialização da aplicação
 - Controllers (endpoints da API)
 - Configurações iniciais da aplicação
-- Inicialização e bootstrap
 - Comunicação HTTP com os clientes
 
 #### 2. **Api.Service** (Business Logic Layer)
@@ -145,13 +146,11 @@ Este padrão garante:
 ## 📝 Endpoints
 
 - `POST /auth/login` - Autenticação de usuários
-- `POST /users` - Criar novo usuário (protegido)
+- `POST /users` - Criar novo usuário
 - `GET /users/{id}` - Obter usuário específico (protegido)
 - `GET /users/{page}/{size}` - Listar usuários de forma paginada (protegido)
 - `PUT /users/{id}` - Atualizar usuário (protegido)
 - `DELETE /users/{id}` - Remover usuário (protegido)
-
-*Para detalhes completos dos endpoints, consulte a documentação Swagger.*
 
 
 ## 🔐 Autenticação
@@ -175,10 +174,9 @@ Contribuições são bem-vindas! Sinta-se à vontade para:
 
 **Felipe S. Carmo**
 
-- [Github](https://github.com/SousaFelipe)
+- [Email](mailto:flpssdocarmo@gmail.com)
 - [Linkedin](www.linkedin.com/in/fscarmo)
 - [Instagram](https://www.instagram.com/flpss.carmo/)
-- [Email](mailto:flpssdocarmo@gmail.com)
 
 
 ## 📄 Licença
